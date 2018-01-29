@@ -1,0 +1,67 @@
+{
+  "name": "@littleq/small-site",
+  "version": "0.0.1",
+  "description": "Small site architecture using Polymer 3",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "pre-process": "node ./config/utils/fragment-builder.js",
+    "dev": "npm run pre-process && ./node_modules/.bin/webpack-dev-server --history-api-fallback && ./node_modules/.bin/webpack --env=dev --watch",
+    "prod": "npm run pre-process && ./node_modules/.bin/webpack --env prod"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tjmonsi/small-site.git"
+  },
+  "author": "TJ Monserrat",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tjmonsi/small-site/issues"
+  },
+  "homepage": "https://github.com/tjmonsi/small-site#readme",
+  "flat": true,
+  "devDependencies": {
+    "autoprefixer": "^7.2.5",
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.0.1",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-dynamic-import-webpack": "^1.0.1",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.6.1",
+    "clean-webpack-plugin": "^0.1.17",
+    "copy-webpack-plugin": "^4.2.0",
+    "css-loader": "^0.28.7",
+    "eslint": "^4.10.0",
+    "eslint-config-semistandard": "^11.0.0",
+    "eslint-plugin-html": "^3.2.2",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "file-loader": "^1.1.5",
+    "html-webpack-plugin": "^2.30.1",
+    "image-webpack-loader": "^3.4.2",
+    "postcss-loader": "^2.0.8",
+    "semistandard": "^11.0.0",
+    "style-loader": "^0.19.0",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.1",
+    "text-loader": "0.0.1",
+    "to-string-loader": "^1.1.5",
+    "webpack": "^3.10.0",
+    "webpack-dev-server": "^2.11.0",
+    "workbox-build": "^2.1.1",
+    "workbox-routing": "^2.1.0",
+    "workbox-sw": "^2.1.1"
+  },
+  "dependencies": {
+    "@polymer/polymer": "^3.0.0-pre.1",
+    "@webcomponents/shadycss": "^1.0.6",
+    "@webcomponents/webcomponentsjs": "^1.0.17",
+    "es5-shim": "^4.5.9",
+    "es6-promise": "^4.1.1",
+    "es6-shim": "^0.35.3",
+    "global": "^4.3.2",
+    "intersection-observer": "^0.4.2",
+    "path-to-regexp": "^2.1.0",
+    "redux": "^3.7.2"
+  }
+}

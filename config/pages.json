@@ -1,0 +1,32 @@
+{
+  "middlewares": ["check-page"],
+  "not-found": "page-not-found",
+  "routes": [
+    {
+      "route": "/",
+      "page": "page-home"
+    },
+    {
+      "route": "/login",
+      "page": "page-login",
+      "middlewares": ["check-no-user"]
+    },
+    {
+      "route": "/authorized",
+      "page": "page-authorized",
+      "middlewares": ["check-user"]
+    },
+    {
+      "route": "/test",
+      "page": "page-test",
+      "middlewares": ["check-test"],
+      "routes": [
+        {
+          "route": "/:id",
+          "page": "page-test-two",
+          "middlewares": ["check-test-two"]
+        }  
+      ]
+    }
+  ]
+}
