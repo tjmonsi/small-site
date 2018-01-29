@@ -1,5 +1,5 @@
 {
-  "middlewares": ["check-page"],
+  "middlewares": ["middleware-check-page"],
   "not-found": "page-not-found",
   "routes": [
     {
@@ -9,23 +9,23 @@
     {
       "route": "/login",
       "page": "page-login",
-      "middlewares": ["check-no-user"]
+      "middlewares": ["middleware-check-no-user"]
     },
     {
       "route": "/authorized",
       "page": "page-authorized",
-      "middlewares": ["check-user"]
+      "middlewares": ["middleware-check-user"]
     },
     {
       "route": "/test",
       "page": "page-test",
-      "middlewares": ["check-test"],
+      "middlewares": ["middleware-check-test"],
       "routes": [
         {
           "route": "/:id",
           "page": "page-test-two",
-          "middlewares": ["check-test-two"]
-        }  
+          "middlewares": ["middleware-check-test-two"]
+        }
       ]
     }
   ]
