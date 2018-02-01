@@ -3,6 +3,7 @@ const fs = require('fs');
 const minify = require('html-minifier').minify;
 const { resolve } = require('path');
 const dev = process.argv.find(item => item === '--dev');
+const watch = process.argv.find(item => item === '--watch');
 const compile = () => {
   console.log('compiling');
   const configJson = fs.readFileSync(resolve(__dirname, 'config/app.json'), 'utf8');
@@ -28,11 +29,14 @@ const compile = () => {
       preserveLineBreaks: true,
       removeComments: true
     });
+    if (!fs.existsSync(resolve(__dirname, 'public'))) {
+      fs.mkdirSync(resolve(__dirname, 'public'));
+    }
     fs.writeFileSync(resolve(__dirname, 'public/index.html'), newHTML, 'utf8');
   }
 };
 compile();
-if (dev) {
+if (watch) {
   fs.watch(resolve(__dirname, 'src/index.ejs'), {}, compile);
   fs.watch(resolve(__dirname, 'config/app.json'), {}, compile);
   fs.watch(resolve(__dirname, 'config/theme.json'), {}, compile);

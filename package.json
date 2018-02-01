@@ -5,6 +5,8 @@
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "size": "./node_modules/.bin/size-limit",
+    "check-size": "./node_modules/.bin/gzip-size",
     "dev": "./dev.bash",
     "serve": "./node_modules/.bin/superstatic public",
     "prod": "NODE_ENV=production && ./node_modules/.bin/webpack --mode=production --env.BROWSERS=module && ./node_modules/.bin/webpack --mode=production && node compiler"
@@ -21,6 +23,13 @@
   "homepage": "https://github.com/tjmonsi/small-site#readme",
   "flat": true,
   "sideEffects": false,
+  "size-limit": [
+    {
+      "limit": "20 KB",
+      "webpack": false,
+      "path": "public/bundle.js"
+    }
+  ],
   "devDependencies": {
     "autoprefixer": "^7.2.5",
     "babel-eslint": "^8.0.1",
@@ -36,10 +45,13 @@
     "eslint-plugin-standard": "^3.0.1",
     "file-loader": "^1.1.5",
     "globby": "^7.1.1",
+    "gzip-size-cli": "^2.1.0",
     "html-minifier": "^3.5.8",
     "is-glob": "^4.0.0",
     "postcss-loader": "^2.0.8",
     "semistandard": "^11.0.0",
+    "size-limit": "^0.14.0",
+    "stylus": "^0.54.5",
     "stylus-loader": "^3.0.1",
     "superstatic": "^5.0.1",
     "text-loader": "0.0.1",

@@ -63,17 +63,50 @@ const shared = env => {
     },
     output: {
       path: resolve(__dirname, 'public'),
-      chunkFilename: IS_MODULE_BUILD ? 'module.[name].fragment.[id].js' : '[name].fragment.[id].js',
+      chunkFilename: IS_MODULE_BUILD ? 'module.[name].fragment.js' : '[name].fragment.js',
       filename: IS_MODULE_BUILD ? 'module.[name].js' : '[name].js'
     },
     resolve: {
+      extensions: ['.js', '.styl'],
       modules: [
         resolve(__dirname, 'node_modules'),
         resolve(__dirname, 'src/components'),
         resolve(__dirname, 'src/pages'),
         resolve(__dirname, 'src/middlewares'),
         resolve(__dirname, 'src/mixins'),
-        resolve(__dirname, 'src/styles')
+        resolve(__dirname, 'src/styles'),
+        resolve(__dirname, 'config')
+      ]
+    },
+    module: {
+      rules: [
+        {
+          // If you see a file that ends in .html, send it to these loaders.
+          test: /\.html$/,
+          use: [
+            'text-loader'
+          ]
+        },
+        {
+          test: /\.styl$/,
+          use: [
+            {
+              loader: 'text-loader'
+            },
+            {
+              loader: 'css-loader'
+            },
+            {
+              loader: 'postcss-loader',
+              options: {
+                sourceMap: true
+              }
+            },
+            {
+              loader: './src/utils/modified-stylus-loader'
+            }
+          ]
+        }
       ]
     },
     plugins: [

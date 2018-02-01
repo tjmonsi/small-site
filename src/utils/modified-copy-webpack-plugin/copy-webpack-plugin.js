@@ -148,7 +148,9 @@ function CopyWebpackPlugin () {
           debug('not adding ' + context + ' to change tracking, because it\'s already tracked');
         } else {
           debug('adding ' + context + ' to change tracking');
-          compilation.contextDependencies.push(context);
+          console.log(context)
+          // console.log(compilation.contextDependencies)
+          // compilation.contextDependencies.push(context);
         }
       });
 
