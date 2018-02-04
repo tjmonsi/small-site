@@ -7,7 +7,7 @@ import style from './style.styl';
 import template from './template.html';
 
 class Component extends Element {
-  static get is () { return 'page-authorized'; }
+  static get is () { return 'page-not-authorized'; }
   static get template () { return `<style>${style}</style>${template}`; }
 }
 

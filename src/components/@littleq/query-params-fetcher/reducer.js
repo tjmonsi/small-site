@@ -5,14 +5,14 @@ const LITTLEQ_QUERYPARAMS_ACTION = {
   UPDATE: 'LITTLEQ_QUERYPARAMS_UPDATE'
 };
 
-reducers.littleqQuery = (littleqQuery = {}, action) => {
+reducers.littleqQueryParams = (obj = {}, action) => {
   switch (action.type) {
     case LITTLEQ_QUERYPARAMS_ACTION.UPDATE:
-      return Object.assign({}, littleqQuery, {
+      return Object.assign({}, obj, {
         params: action.params
       });
     default:
-      return littleqQuery;
+      return obj;
   }
 };
 

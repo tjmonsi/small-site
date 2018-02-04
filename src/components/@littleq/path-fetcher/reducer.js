@@ -1,31 +1,31 @@
 import { reducers, store } from '@littleq/state-manager';
 import { combineReducers } from 'redux';
 
-const LITTLEQ_LOCATION_ACTION = {
-  PATH: 'LITTLEQ_LOCATION_UPDATE_PATH',
-  QUERY: 'LITTLEQ_LOCATION_UPDATE_QUERY',
-  HASH: 'LITTLEQ_LOCATION_UPDATE_HASH'
+const LITTLEQ_PATH_ACTION = {
+  PATH: 'LITTLEQ_PATH_UPDATE_PATH',
+  QUERY: 'LITTLEQ_PATH_UPDATE_QUERY',
+  HASH: 'LITTLEQ_PATH_UPDATE_HASH'
 };
 
-reducers.littleqLocation = (littleqLocation = {}, action) => {
+reducers.littleqPath = (obj = {}, action) => {
   switch (action.type) {
-    case LITTLEQ_LOCATION_ACTION.PATH:
-      return Object.assign({}, littleqLocation, {
+    case LITTLEQ_PATH_ACTION.PATH:
+      return Object.assign({}, obj, {
         path: action.path
       });
-    case LITTLEQ_LOCATION_ACTION.QUERY:
-      return Object.assign({}, littleqLocation, {
+    case LITTLEQ_PATH_ACTION.QUERY:
+      return Object.assign({}, obj, {
         query: action.query
       });
-    case LITTLEQ_LOCATION_ACTION.HASH:
-      return Object.assign({}, littleqLocation, {
+    case LITTLEQ_PATH_ACTION.HASH:
+      return Object.assign({}, obj, {
         hash: action.query
       });
     default:
-      return littleqLocation;
+      return obj;
   }
 };
 
 store.replaceReducer(combineReducers(reducers));
 
-export { LITTLEQ_LOCATION_ACTION };
+export { LITTLEQ_PATH_ACTION };

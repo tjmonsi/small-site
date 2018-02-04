@@ -1,33 +1,31 @@
 import { Element } from '@polymer/polymer/polymer-element';
-import { customElements } from 'global/window';
+import {
+  customElements,
+  removeEventListener,
+  addEventListener,
+  performance,
+  history,
+  dispatchEvent,
+  CustomEvent,
+  location } from 'global/window';
 import { LittleQStoreMixin } from '@littleq/state-manager';
-import { LITTLEQ_LOCATION_ACTION } from './reducer';
+import { LITTLEQ_PATH_ACTION } from './reducer';
 import { resolveUrl } from './lib/resolve-url';
+
+export { LITTLEQ_PATH_ACTION };
 
 class Component extends LittleQStoreMixin(Element) {
   static get is () { return 'path-fetcher'; }
 
   static get properties () {
     return {
-      // path: {
-      //   type: String,
-      //   observer: '_pathChanged',
-      //   statePath: 'littleqLocation.path'
-      // },
-
-      // query: {
-      //   type: String,
-      //   observer: '_queryChanged',
-      //   statePath: 'littleqLocation.query'
-      // },
-
       urlSpaceRegex: {
         type: String
       },
 
       hash: {
         type: String,
-        statePath: 'littleqLocation.hash'
+        statePath: 'littleqPath.hash'
       },
 
       dwellTime: {
@@ -57,12 +55,10 @@ class Component extends LittleQStoreMixin(Element) {
   }
 
   connectedCallback () {
-    if (super.disconnectedCallback) {
-      super.connectedCallback();
-    }
-    window.addEventListener('hashchange', this._boundHashChanged);
-    window.addEventListener('location-changed', this._boundUrlChanged);
-    window.addEventListener('popstate', this._boundUrlChanged);
+    if (super.disconnectedCallback) super.connectedCallback();
+    addEventListener('hashchange', this._boundHashChanged);
+    addEventListener('location-changed', this._boundUrlChanged);
+    addEventListener('popstate', this._boundUrlChanged);
     document.body.addEventListener('click', this._boundGlobalOnClick, true);
     this._lastChangedAt = window.performance.now() - (this.dwellTime - 200);
     this._initialized = true;
@@ -74,22 +70,19 @@ class Component extends LittleQStoreMixin(Element) {
   }
 
   disconnectedCallback () {
-    if (super.disconnectedCallback) {
-      super.disconnectedCallback();
-    }
-    window.removeEventListener('hashchange', this._boundHashChanged);
-    window.removeEventListener('location-changed', this._boundUrlChanged);
-    window.removeEventListener('popstate', this._boundUrlChanged);
+    if (super.disconnectedCallback) super.disconnectedCallback();
+    removeEventListener('hashchange', this._boundHashChanged);
+    removeEventListener('location-changed', this._boundUrlChanged);
+    removeEventListener('popstate', this._boundUrlChanged);
     document.body.removeEventListener('click', this._boundGlobalOnClick);
     this._initialized = false;
   }
 
   _hashChanged () {
     this.dispatch({
-      type: LITTLEQ_LOCATION_ACTION.HASH,
+      type: LITTLEQ_PATH_ACTION.HASH,
       path: window.decodeURIComponent(window.location.hash.substring(1))
     });
-    // this.hash = window.decodeURIComponent(window.location.hash.substring(1));
   }
 
   _urlChanged () {
@@ -102,38 +95,30 @@ class Component extends LittleQStoreMixin(Element) {
     this._hashChanged();
 
     this.dispatch({
-      type: LITTLEQ_LOCATION_ACTION.PATH,
+      type: LITTLEQ_PATH_ACTION.PATH,
       path: window.decodeURIComponent(window.location.pathname)
     });
 
     this.dispatch({
-      type: LITTLEQ_LOCATION_ACTION.QUERY,
+      type: LITTLEQ_PATH_ACTION.QUERY,
       query: window.location.search.substring(1)
     });
 
-    // this.path =
-    // this.query =
     this._dontUpdateUrl = false;
     this._updateUrl();
   }
 
   _getUrl () {
-    var partiallyEncodedPath = window.encodeURI(this.path).replace(/\#/g, '%23').replace(/\?/g, '%3F'); // eslint-disable-line no-useless-escape
-    var partiallyEncodedQuery = '';
-    if (this.query) {
-      partiallyEncodedQuery = '?' + this.query.replace(/\#/g, '%23'); // eslint-disable-line no-useless-escape
-    }
-    var partiallyEncodedHash = '';
-    if (this.hash) {
-      partiallyEncodedHash = '#' + window.encodeURI(this.hash);
-    }
+    const partiallyEncodedPath = window.encodeURI(this.path).replace(/\#/g, '%23').replace(/\?/g, '%3F'); // eslint-disable-line no-useless-escape
+    let partiallyEncodedQuery = '';
+    if (this.query) partiallyEncodedQuery = '?' + this.query.replace(/\#/g, '%23'); // eslint-disable-line no-useless-escape
+    let partiallyEncodedHash = '';
+    if (this.hash) partiallyEncodedHash = '#' + window.encodeURI(this.hash);
     return (partiallyEncodedPath + partiallyEncodedQuery + partiallyEncodedHash);
   }
 
   _updateUrl () {
-    if (this._dontUpdateUrl || !this._initialized) {
-      return;
-    }
+    if (this._dontUpdateUrl || !this._initialized) return;
 
     if (this.path === window.decodeURIComponent(window.location.pathname) &&
         this.query === window.location.search.substring(1) &&
@@ -141,18 +126,14 @@ class Component extends LittleQStoreMixin(Element) {
       // Nothing to do, the current URL is a representation of our properties.
       return;
     }
-    var newUrl = this._getUrl();
+    const newUrl = this._getUrl();
     // Need to use a full URL in case the containing page has a base URI.
-    var fullNewUrl = resolveUrl(newUrl, window.location.protocol + '//' + window.location.host).href;
-    var now = window.performance.now();
-    var shouldReplace = this._lastChangedAt + this.dwellTime > now;
+    const fullNewUrl = resolveUrl(newUrl, window.location.protocol + '//' + window.location.host).href;
+    const now = performance.now();
+    const shouldReplace = this._lastChangedAt + this.dwellTime > now;
     this._lastChangedAt = now;
-    if (shouldReplace) {
-      window.history.replaceState({}, '', fullNewUrl);
-    } else {
-      window.history.pushState({}, '', fullNewUrl);
-    }
-    window.dispatchEvent(new window.CustomEvent('location-changed'));
+    shouldReplace ? history.replaceState({}, '', fullNewUrl) : window.history.pushState({}, '', fullNewUrl);
+    dispatchEvent(new CustomEvent('location-changed'));
   }
 
   /**
@@ -165,22 +146,15 @@ class Component extends LittleQStoreMixin(Element) {
     // If another event handler has stopped this event then there's nothing
     // for us to do. This can happen e.g. when there are multiple
     // iron-location elements in a page.
-    if (event.defaultPrevented) {
-      return;
-    }
-    var href = this._getSameOriginLinkHref(event);
-    if (!href) {
-      return;
-    }
+    if (event.defaultPrevented) return;
+    const href = this._getSameOriginLinkHref(event);
+    if (!href) return;
     event.preventDefault();
     // If the navigation is to the current page we shouldn't add a history
     // entry or fire a change event.
-    if (href === window.location.href) {
-      return;
-    }
-
-    window.history.pushState({}, '', href);
-    window.dispatchEvent(new window.CustomEvent('location-changed'));
+    if (href === location.href) return;
+    history.pushState({}, '', href);
+    dispatchEvent(new CustomEvent('location-changed'));
   }
 
   /**
@@ -193,33 +167,26 @@ class Component extends LittleQStoreMixin(Element) {
    */
   _getSameOriginLinkHref (event) {
     // We only care about left-clicks.
-    if (event.button !== 0) {
-      return null;
-    }
+    if (event.button !== 0) return null;
     // We don't want modified clicks, where the intent is to open the page
     // in a new tab.
-    if (event.metaKey || event.ctrlKey) {
-      return null;
-    }
-    var eventPath = event.composedPath();
-    var anchor = null;
-    for (var i = 0; i < eventPath.length; i++) {
-      var element = eventPath[i];
-      if (element.tagName === 'A' && element.href) {
-        anchor = element;
-        break;
-      }
-    }
+    if (event.metaKey || event.ctrlKey) return null;
+    const eventPath = event.composedPath();
+    let anchor = null;
+    eventPath.forEach(element => element.tagName === 'A' && element.href ? (anchor = element) : '');
+    // for (var i = 0; i < eventPath.length; i++) {
+    //   var element = eventPath[i];
+    //   if (element.tagName === 'A' && element.href) {
+    //     anchor = element;
+    //     break;
+    //   }
+    // }
     // If there's no link there's nothing to do.
-    if (!anchor) {
-      return null;
-    }
+    if (!anchor) return null;
     // Target blank is a new tab, don't intercept.
     if (anchor.target === '_blank') {
       // capture link click
-      if (anchor.href && window.ga) {
-        window.ga('send', 'event', 'Link', 'Click', anchor.href, 1);
-      }
+      if (anchor.href && window.ga) window.ga('send', 'event', 'Link', 'Click', anchor.href, 1);
       return null;
     }
     // If the link is for an existing parent frame, don't intercept.
@@ -228,44 +195,21 @@ class Component extends LittleQStoreMixin(Element) {
         window.top !== window) {
       return null;
     }
-    var href = anchor.href;
+    const href = anchor.href;
     // It only makes sense for us to intercept same-origin navigations.
     // pushState/replaceState don't work with cross-origin links.
-    var url;
-    if (document.baseURI != null) {
-      url = resolveUrl(href, /** @type {string} */(document.baseURI));
-    } else {
-      url = resolveUrl(href);
-    }
-    var origin;
+    const url = document.baseURI != null ? resolveUrl(href, /** @type {string} */(document.baseURI)) : resolveUrl(href);i
     // IE Polyfill
-    if (window.location.origin) {
-      origin = window.location.origin;
-    } else {
-      origin = window.location.protocol + '//' + window.location.host;
-    }
-    var urlOrigin;
-    if (url.origin) {
-      urlOrigin = url.origin;
-    } else {
-      urlOrigin = url.protocol + '//' + url.host;
-    }
-    if (urlOrigin !== origin) {
-      return null;
-    }
-    var normalizedHref = url.pathname + url.search + url.hash;
+    const origin = window.location.origin || window.location.protocol + '//' + window.location.host;
+    const urlOrigin = url.origin || url.protocol + '//' + url.host;
+    if (urlOrigin !== origin) return null;
+    let normalizedHref = url.pathname + url.search + url.hash;
     // pathname should start with '/', but may not if `new URL` is not supported
-    if (normalizedHref[0] !== '/') {
-      normalizedHref = '/' + normalizedHref;
-    }
+    if (normalizedHref[0] !== '/') normalizedHref = '/' + normalizedHref;
     // If we've been configured not to handle this url... don't handle it!
-    if (this._urlSpaceRegExp &&
-        !this._urlSpaceRegExp.test(normalizedHref)) {
-      return null;
-    }
+    if (this._urlSpaceRegExp && !this._urlSpaceRegExp.test(normalizedHref)) return null;
     // Need to use a full URL in case the containing page has a base URI.
-    var fullNormalizedHref = resolveUrl(normalizedHref, window.location.href).href;
-    return fullNormalizedHref;
+    return resolveUrl(normalizedHref, window.location.href).href;
   }
 
   _makeRegExp (urlSpaceRegex) {

@@ -2,12 +2,8 @@
   "page-home": "page-home",
   "page-not-found": "page-not-found",
   "page-not-authorized": "page-not-authorized",
-  "middleware-check-page": "middleware-check-page",
   "page-login": "page-login",
-  "middleware-check-no-user": "middleware-check-no-user",
   "page-authorized": "page-authorized",
   "page-test": "page-test",
-  "middleware-check-test": "middleware-check-test",
-  "page-test-two": "page-test-two",
-  "middleware-check-test-two": "middleware-check-test-two"
+  "page-test-two": "page-test-two"
 }
