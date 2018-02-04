@@ -6,3 +6,4 @@ const app = connect().use(superstatic({
   cwd: 'public'
 }));
 http.createServer(app).listen(3000);
+console.log('serving at http://localhost:3000');
