@@ -1,8 +1,10 @@
 const { resolve } = require('path');
 const merge = require('webpack-merge');
 const CopyWebpackPlugin = require('./src/utils/modified-copy-webpack-plugin/copy-webpack-plugin');
+const HTMLWebpackPlugin = require('html-webpack-plugin');
 const moduleConf = require('./webpack-module.config');
 const nomoduleConf = require('./webpack-nomodule.config');
+const getHtmlOptions = require('./src/utils/html-webpack/get-html-options');
 const IS_DEV_SERVER = !!process.argv.find(arg => arg.includes('--mode=development'));
 
 const copyStatics = {
@@ -91,9 +93,6 @@ const shared = env => {
           test: /\.styl$/,
           use: [
             {
-              loader: 'text-loader'
-            },
-            {
               loader: 'css-loader'
             },
             {
@@ -110,6 +109,8 @@ const shared = env => {
       ]
     },
     plugins: [
+      new HTMLWebpackPlugin(getHtmlOptions(IS_DEV_SERVER, 'index')),
+      new HTMLWebpackPlugin(getHtmlOptions(IS_DEV_SERVER, '404')),
       new CopyWebpackPlugin(copyStatics.copyPolyfills)
     ]
   };
