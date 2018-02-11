@@ -198,7 +198,7 @@ class Component extends LittleQStoreMixin(Element) {
     const href = anchor.href;
     // It only makes sense for us to intercept same-origin navigations.
     // pushState/replaceState don't work with cross-origin links.
-    const url = document.baseURI != null ? resolveUrl(href, /** @type {string} */(document.baseURI)) : resolveUrl(href);i
+    const url = document.baseURI != null ? resolveUrl(href, /** @type {string} */(document.baseURI)) : resolveUrl(href);
     // IE Polyfill
     const origin = window.location.origin || window.location.protocol + '//' + window.location.host;
     const urlOrigin = url.origin || url.protocol + '//' + url.host;
