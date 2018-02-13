@@ -167,11 +167,11 @@
           document.removeEventListener('WebComponentsReady', componentsReady, false);
           var script = document.createElement('script');
           script.async = true
-          script.src = 'bundle.js';
+          script.src = '/bundle.js';
           script.setAttribute('nomodule', true);
           var scriptModule = document.createElement('script');
           scriptModule.async = true
-          scriptModule.src = 'module.bundle.js';
+          scriptModule.src = '/module.bundle.js';
           scriptModule.setAttribute('type', 'module');
           var refScript = document.body.getElementsByTagName('script')[0];
           refScript.parentNode.insertBefore(script, refScript);

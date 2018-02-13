@@ -8,6 +8,7 @@
     "size": "./node_modules/.bin/size-limit",
     "check-size": "./node_modules/.bin/gzip-size",
     "dev": "./dev.bash",
+    "dev-c9": "./dev-c9.bash",
     "serve": "node server",
     "prod": "NODE_ENV=production && ./node_modules/.bin/webpack --mode=production --env.BROWSERS=module && ./node_modules/.bin/webpack --mode=production && node compiler"
   },
