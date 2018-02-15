@@ -66,7 +66,8 @@ const shared = env => {
     output: {
       path: resolve(__dirname, 'public'),
       chunkFilename: IS_MODULE_BUILD ? 'module.[name].fragment.js' : '[name].fragment.js',
-      filename: IS_MODULE_BUILD ? 'module.[name].js' : '[name].js'
+      filename: IS_MODULE_BUILD ? 'module.[name].js' : '[name].js',
+      publicPath: '/'
     },
     resolve: {
       extensions: ['.js', '.styl'],
