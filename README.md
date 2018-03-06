@@ -26,12 +26,12 @@ git clone https://github.com/tjmonsi/small-site.git [your-app-name]
 ```
 
 Remove the .git folder and change details within: 
-- package.json 
+- in the package.json file
 - change the name of the project 
 - change description of the project 
 - change the version of the project 
 - update the git url 
-- src/manifest.json 
+- in the src/manifest.json file
 - change the name of the project 
 - change the short name (max 20 characters) of the project 
 - change start_url of the project 
