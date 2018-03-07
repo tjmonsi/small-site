@@ -67,7 +67,7 @@ All output will be put in the public folder.
 You can then check the output by running a server that has gzipped enabled:
 
 ```bash
-npm run server
+npm run serve
 ```
 
 You can access the site at http://localhost:3000
