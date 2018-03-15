@@ -20,6 +20,11 @@ module.exports = () => {
               ]],
               plugins: [
                 'babel-plugin-syntax-dynamic-import',
+                ['transform-runtime', {
+                  'helpers': false,
+                  'polyfill': false,
+                  'regenerator': true
+                }],
                 ['transform-object-rest-spread', {useBuiltIns: true}]
               ]
             }

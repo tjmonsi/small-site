@@ -34,6 +34,7 @@
   "devDependencies": {
     "autoprefixer": "^7.2.5",
     "babel-eslint": "^8.0.1",
+    "babel-plugin-transform-runtime": "^6.23.0",
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.1",
     "clean-webpack-plugin": "^0.1.17",
@@ -60,6 +61,8 @@
     "stylus-loader": "^3.0.1",
     "superstatic": "^5.0.1",
     "text-loader": "0.0.1",
+    "webpack": "^4.1.1",
+    "webpack-cli": "^2.0.12",
     "webpack-merge": "^4.1.1"
   },
   "dependencies": {
