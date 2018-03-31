@@ -39,7 +39,7 @@
     "babel-preset-env": "1.6.1",
     "clean-webpack-plugin": "0.1.17",
     "connect": "3.6.5",
-    "css-loader": "0.28.9",
+    "css-loader": "0.28.11",
     "ejs": "2.5.7",
     "eslint": "4.16.0",
     "eslint-config-semistandard": "11.0.0",
