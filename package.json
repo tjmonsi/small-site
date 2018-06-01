@@ -62,7 +62,7 @@
     "superstatic": "5.0.1",
     "text-loader": "0.0.1",
     "webpack": "4.1.1",
-    "webpack-cli": "2.0.12",
+    "webpack-cli": "2.1.5",
     "webpack-merge": "4.1.1"
   },
   "dependencies": {
