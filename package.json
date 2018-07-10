@@ -52,7 +52,7 @@
     "html-minifier": "3.5.8",
     "html-webpack-plugin": "3.0.6",
     "is-glob": "4.0.0",
-    "postcss-loader": "2.0.10",
+    "postcss-loader": "2.1.6",
     "raw-loader": "0.5.1",
     "semistandard": "11.0.0",
     "size-limit": "0.14.0",
