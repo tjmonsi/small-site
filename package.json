@@ -40,7 +40,7 @@
     "clean-webpack-plugin": "0.1.17",
     "connect": "3.6.5",
     "css-loader": "0.28.9",
-    "ejs": "2.5.7",
+    "ejs": "2.7.4",
     "eslint": "4.16.0",
     "eslint-config-semistandard": "11.0.0",
     "eslint-plugin-html": "3.2.2",
