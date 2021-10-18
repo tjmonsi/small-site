@@ -51,7 +51,7 @@
     "gzip-size-cli": "2.1.0",
     "html-minifier": "3.5.8",
     "html-webpack-plugin": "3.0.6",
-    "is-glob": "4.0.0",
+    "is-glob": "4.0.3",
     "postcss-loader": "2.0.10",
     "raw-loader": "0.5.1",
     "semistandard": "11.0.0",
