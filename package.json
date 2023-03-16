@@ -59,7 +59,7 @@
     "style-loader": "0.20.1",
     "stylus": "0.54.5",
     "stylus-loader": "3.0.1",
-    "superstatic": "5.0.1",
+    "superstatic": "9.0.1",
     "text-loader": "0.0.1",
     "webpack": "4.1.1",
     "webpack-cli": "2.0.12",
