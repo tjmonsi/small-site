@@ -55,7 +55,7 @@
     "postcss-loader": "2.0.10",
     "raw-loader": "0.5.1",
     "semistandard": "11.0.0",
-    "size-limit": "0.14.0",
+    "size-limit": "0.15.0",
     "style-loader": "0.20.1",
     "stylus": "0.54.5",
     "stylus-loader": "3.0.1",
